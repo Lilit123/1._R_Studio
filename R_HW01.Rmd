@@ -1,0 +1,288 @@
+---
+title: "R_HW01"
+author: "Lilit Hovsepyan"
+date: "06 10 2019"
+output: html_document
+---
+
+
+```{r, echo=FALSE}
+htmltools::includeHTML("C:\\Users\\User\\Desktop\\LILIT\\1. YSU\\1st Semester Courses_09.19-01.20\\2. R Programming\\HWs\\YSU-ASDS-Fall-2019-HW1.html")
+```
+
+
+```{r}
+# Task2
+
+# a.
+pi<-3.14
+log(x=((sin(pi/2)+exp(1))/sqrt(a))*20^10, base = 2)
+```
+
+```{r}
+# Task2
+
+# b.
+x <- seq(from=151.5, to=9, by=-1.5)
+head(x,5)
+
+y_bar<-rep(x=c(5,8,-5), each=2)
+y<-rep(y_bar,time=length(x)/(2*length(y_bar)))
+
+length(x)
+length(y)
+```
+
+```{r}
+# Task2
+
+# c.
+mean(x)
+y[length(y)+1]<-mean(x)
+y
+z<-x*y
+z
+
+# Since it's an element-wise multiplicaton and the lengths of x and y are not the same, so there should be a worning. However, we got the multiplication by matching the elements with the longer vector elements.
+
+```
+
+```{r}
+# Task2
+
+# d.
+z[c(29,51,61,78)]
+z[c(29,51,61,78)]<-c(0,1)
+z
+
+# There is no worning. Because the length doesn't matter in this case, we are not subtracting or multiplying or summing these vectors
+```
+
+```{r}
+# Task2
+
+# e.
+z_bar<-z[z>=1000]
+z_bar
+
+length(z[z>=1000])
+
+```
+
+```{r}
+# Task3
+
+# a.
+mtx1 <- matrix(data = c(1,2,2,1,3,3,0,1,2), nrow = 3, ncol = 3, byrow = F)
+mtx2 <- matrix(data = c(1,2,1,0,1,0), nrow = 3, ncol = 2, byrow = F)
+mtx1
+mtx2
+
+mtx_mult <- (1/2)*mtx1%*%mtx2
+mtx_mult
+
+dim(mtx_mult)
+
+# In order to show that the multiplication of matrices is not commutative we should see that mtx1%*%mtx2!=mtx2%*%mtx1(besides, the right part of inequality doesn't exist)
+
+mtx2%*%mtx1
+
+```
+
+```{r}
+# Task 3.
+# b.
+
+subC <- mtx_mult[2:3,]
+subC
+
+t(subC)
+```
+
+```{r}
+# Task 3.
+# c.
+
+typeof(subC)
+is.matrix(subC)
+is.numeric(subC)
+```
+```{r}
+# Task 3.
+# d.
+
+diag(subC)<-0
+subC
+```
+
+```{r}
+# Task 3.
+# e.
+
+subC_inverse <- solve(subC)
+subC_inverse
+
+subC%*%subC_inverse==subC_inverse%*%subC
+subC_inverse%*%subC==diag(2)
+```
+
+```{r}
+# Task 4.
+# a.
+
+x <- seq(from=151.5, to=9, by=-1.5)
+y_bar<-rep(x=c(5,8,-5), each=2)
+y<-rep(y_bar,time=length(x)/(2*length(y_bar)))
+
+L<-list(x,y,subC,array(data = c(x,y), dim = c(1,29,5)))
+L
+
+```
+
+```{r}
+# Task 4.
+# b.
+adj<-L[[1]]-mean(L[[2]])
+adj
+
+```
+
+```{r}
+# Task 4.
+# c.
+L<-list(x,y,subC,array(data = c(x,y), dim = c(1,29,5)))
+L_new<-L[c(-2,-3)]
+L_new
+length(L_new)
+
+names(L_new)<-c("Vector", "array")
+L_new
+```
+
+```{r}
+# Task 4.
+# d.
+dframe<-data.frame(Name=c("Eric Clapton","Jimi Hendrix","Joe Satriani","Steven Vai","Orianthi Paraganis","Lita Ford"),Gender=c("M","M","M","M","F","F"), Rating=c("High","Med","Love","High","Low","Low"))
+dframe
+
+newdata<-data.frame(Year=c(1945,1942,1956,1960,1985,1958))
+dframe_new<-cbind(dframe,newdata)
+dframe_new
+
+structure(dframe_new)
+
+```
+
+
+```{r}
+# Task 4.
+# e.
+
+2019-dframe_new$Year[2]
+age<-data.frame(age=2019-dframe_new$Year)
+age
+
+dframe_new<-cbind(dframe_new,age)
+structure(dframe_new)
+
+dframe_new$age[dframe_new$Name=="Jimi Hendrix"]<-" "
+
+structure(dframe_new)
+```
+
+
+```{r}
+# Task 4.
+# f.
+
+new<-data.frame(Name="B.B.King",Gender="M",Rating="High",Year="1925",age=2019-1925)
+dframe_new<-rbind(dframe_new,new)
+
+structure(dframe_new)
+```
+
+
+```{r}
+# Task 4.
+# g.
+
+tail(dframe_new,5)
+
+DF<-dframe_new
+L[[length(L)+1]]<-DF
+L
+
+dframe_new$Name[dframe_new$Gender=="F"]
+
+```
+```{r}
+# Task 5.
+
+install.packages("kableExtra")
+library(knitr)
+library(kableExtra)
+```
+
+
+```{r}
+# Task 5.
+
+kable(dframe_new)
+dframe_new %>%
+  kable() %>%
+  kable_styling()
+```
+
+
+```{r}
+# Task 5.
+
+kable(dframe_new) %>%
+  kable_styling("striped", full_width = F) %>%
+  column_spec(1:5, color = "black") %>%
+  row_spec(5:7, bold = T, color = "red", background = "pink") %>%
+  row_spec(1:3,color = "black", background = "lightgray") %>%
+  row_spec(0, angle = 13)
+
+```
+I could write here all my comments, but it was more convenient to write in chunks
+```{r}
+# Task 6.
+
+# a. There are three assigning operators in R: <-,=,<<- (or ->>). Let's compare <- and = operators, they are almost the same thing in a bit difference. <- operator we can use anywhere, whereas the = operator allowed for example the sepcification of a named parameter formula for some function
+# example:
+xx<-rnorm(100)
+yy<-3*x + rnorm(100)
+lm(formula = yy~xx)
+# <<- and ->> operators are normally used only in functions.
+
+
+# b. Matrix is a primitive ( :) ) data type where we cannot store different types of elements (they should be either strings, or integers(tver), we cannot have a matrix where elements are both of them). In Data Frame as we saw previously we can store different types of elements.
+
+
+# c. In R we have 4 usages of Diag: 1. x is a matrix, when it extracts the diagonal, 2. x is missing and nrow is specified, it returns an identity matrix, 3. x is a scalar (length-one vector) and the only argument, it returns a square identity matrix of size given by the scalar, 4. x is a ‘numeric’ (complex, numeric, integer, logical, or raw) vector, either of length at least 2 or there were further arguments. This returns a matrix with the given diagonal and zero off-diagonal entries.
+# If x is a matrix then diag(x) returns the diagonal of x.
+
+
+# d. echo = FALSE prevents code, but not the results from appearing in the finished file. There are also include = FALSE prevents code and results from appearing in the finished file. R Markdown still runs the code in the chunk, and the result can be used by other chunks. Or there is a warning=FALSE prevents warnings that are generated by code from appearing in the finished.
+
+
+# e. For example we have: 
+#[1] 25 63 8 9 here [1] represents the first index of the line of our output 
+#[5] 10 5 99 6
+# 25 is the first one [1], 63 is 2nd [2],...10 is [5], 5 is [6], ..etc.
+
+
+# f. Array can be considered as a collection of equally dimensioned matrices, it can store only one type of data. Data frames and lists can store multiple types of values at once. A single list can contain a numeric matrix, a logicalarray, a single character string, and a factor object. Even we can have a list as a component of another list. Data frame is the most naural way of presenting a data set by recording obseravtions for one or more variables. Unlike a list in data frame the members must all be vectors of equal length.
+
+# g.
+# It took me too much time because I was reading the Book of R and doing the HW simultaneously. (almost 12 hours)
+```
+
+
+
+
+
+
+
+
