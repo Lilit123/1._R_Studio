@@ -1,0 +1,134 @@
+---
+title: "HW2_R_Programming"
+author: "Lilit Hovsepyan"
+date: "24 11 2019"
+output: html_document
+---
+
+Task 1.Special and Non-Numeric Values
+
+```{r echo=FALSE}
+# a. The types of variables are correct. In "genre" we have categories of genres, it's meaningfull to separate them, but for example in "performedby" variable we don't need to have them separetly, because it would not have a meaning (because we defined this: stringsAsFactors = F)
+```
+
+```{r echo=FALSE}
+
+PlayList <- data.frame(
+  performedby = c("Kavitch", "Kavitch", "Chopin", "Billie Eilish", "Noize MC", "Sia", "Scorpions", "Joe Satriani", "Joe Satriani", "Sia", "Noize MC", "Yiruma", "Nirvana", "Yiruma", "Kaleo", "Yiruma"),
+  genre = factor(c("Alternative Rock", "Alternative Rock", "Classic", "Pop", "Rock", "Pop", "Hard Rock", "Instrumental Rock", "Instrumental Rock", "Pop", "Rock", "Classic", "Alternative Rock", "Classic", "Alternative Rock", "Classic")),
+  duration = c(3.39, 4.45, 3.20, 5.07, 3.41, 4.48, 2.43, 5.32, 3.52, 4.17, 7.50, 4.39, 3.51, 3.34, 3.52, 3.34),
+  repetition = c(NaN, 5, Inf, 2, 7, NaN, 2, 3, NA, 2, 1, NA, 3, 4, Inf, 6),
+  include = c(rep(T, 6), F, F, F, rep(T, 7) ), stringsAsFactors = F)
+
+# b.
+a <- function(){
+  PlayList[(PlayList$repetition != Inf) & !is.nan(PlayList$repetition), c("performedby","repetition")]
+}
+a()
+
+which((PlayList$repetition == Inf) | (is.nan(PlayList$repetition)))
+
+```
+
+```{r echo=FALSE}
+# c.
+PlayList[(PlayList$repetition^1000 != Inf), c("performedby","duration")]
+```
+
+```{r echo=FALSE}
+# d.
+eminem <- data.frame(performedby = "Eminem", genre = "Rap", duration = 8, repetition = NA, include = T)
+PlayList <- rbind(PlayList, eminem)
+PlayList
+```
+
+
+```{r echo=FALSE}
+# e.
+
+d <- PlayList[PlayList$include == F, ]
+d$genre <- factor(c("Hard Rock", "Instrumental Rock", "Instrumental Rock"))
+d$genre
+
+```
+
+
+```{r echo=FALSE}
+# f.
+
+f <- PlayList[(PlayList$repetition != Inf)&(!is.nan(PlayList$repetition))&(!is.na(PlayList$repetition)), c("performedby","duration","repetition")]
+
+m <- max(f$repetition)
+x <- m == f$repetition
+
+f[x,]$performedby
+
+floor((f[x,]$duration * m)*60) #seconds
+
+```
+
+Task 2.Functions, statements, and loops
+
+```{r echo=FALSE}
+# a.
+
+J <- matrix(data=c(1,2,3,4,5,6), ncol = 3, byrow = T)
+J
+
+v <- vector(length = x)
+
+column_sum <- function(arg){
+  x <- ncol(arg)
+  v <- vector(length = x)
+  for (i in 1:x)
+    v[i] <- sum(arg[,i])
+  v
+}
+
+column_sum(J)
+```
+
+
+```{r echo=FALSE}
+# b.
+
+PlayList
+colnames(PlayList)
+class(PlayList$performedby)
+p <- function(arg){
+  for (i in 1:ncol(arg))
+  v[i]
+}
+p(PlayList)
+```
+
+Task 3. Questions
+
+a.
+is.infinite()`, `is.finite() both functions doesn't distinguish between positive or negative infinity.
+
+b.
+Null: This is used to define an 'empty' entity, which is different from a missing entity,
+NA: Shows missing entity, missing values (Not Available),
+NAN: When there is now possibility to express the result of a calculation using a number, inf or -inf. So we lable Nan for these cases (Not a Number)
+
+c.
+Coercion: Converts from one object or data type to another (explicit and implicit).
+
+d.
+Yes,there is. We generally use explicit return() functions to return a value immediately from a function.
+If it is not the last statement of the funtion, it will end the function bringing the control to the place from which it was called.
+
+e.
+"if" statement can check the condition of only a single logical value. However, "ifelse" can do this, for example, for vectors and this is done by element-wise checking.
+
+f.
+One problem of using attach(), is that you may have other objects in memory, called with the names of variables of you dataframe. If we want to use them but have attached dataframe, it's easy to mix up use of objects.
+
+
+
+
+
+
+
+
