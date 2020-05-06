@@ -274,9 +274,6 @@ lm(formula = yy~xx)
 
 
 # f. Array can be considered as a collection of equally dimensioned matrices, it can store only one type of data. Data frames and lists can store multiple types of values at once. A single list can contain a numeric matrix, a logicalarray, a single character string, and a factor object. Even we can have a list as a component of another list. Data frame is the most naural way of presenting a data set by recording obseravtions for one or more variables. Unlike a list in data frame the members must all be vectors of equal length.
-
-# g.
-# It took me too much time because I was reading the Book of R and doing the HW simultaneously. (almost 12 hours)
 ```
 
 
